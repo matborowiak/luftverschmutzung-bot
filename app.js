@@ -1,10 +1,12 @@
-const axios = require("axios");
+const axios = require('axios');
+const token = require('./_keys/API_KEYS')
 
-const token = undefined;
-let city = "berlin";
+
+// FETCH POLLUTION DATA
+const city = 'berlin';
 const fetchData = async () => {
   const result = await axios
-    .get(`https://api.waqi.info/feed/${city}/?token=${token}`)
+    .get(`https://api.waqi.info/feed/${city}/?token=${token.WAQI_TOKEN}`)
     return result
 };
 
@@ -12,15 +14,23 @@ fetchData().then(response => {
     console.log('LAST', JSON.stringify(response.data))
 })
 
-const config = axios.create({
-  authorization: 
-    oauth_consumer_key="CONSUMER_API_KEY",
-    oauth_nonce="OAUTH_NONCE",
-    oauth_signature="OAUTH_SIGNATURE",
-    oauth_signature_method="HMAC-SHA1",
-    oauth_timestamp="OAUTH_TIMESTAMP",
-    oauth_token="ACCESS_TOKEN",
-    oauth_version="1.0"
+// PROCESS POLLUTION DATA
+
+
+// POST TO TWITTER
+const Twit = require('twit')
+
+const t = new Twit({
+  consumer_key:         token.consumer_key,
+  consumer_secret:      token.consumer_secret,
+  access_token:         token.access_token,
+  access_token_secret:  token.access_token_secret,
+  // timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+  // strictSSL:            true,     // optional - requires SSL certificates to be valid.
 })
 
-const date = await config.post('https://api.twitter.com/1.1/statuses/update.json')
+// t.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
+//   console.log('DATA:', data)
+//   // console.log('RESPONSE:', response)
+//   // console.log('ERROR:', err)
+// })

@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "data": {
+    "aqi": 10,
+    "idx": 6132,
+    "attributions": [
+      {
+        "url": "http://www.stadtentwicklung.berlin.de/umwelt/luftqualitaet/",
+        "name": "Berlin Air Quality - (Luftqualität in Berlin)",
+        "logo": "Germany-Berlin.png"
+      },
+      { "url": "https://waqi.info/", "name": "World Air Quality Index Project" }
+    ],
+    "city": {
+      "geo": [52.5200066, 13.404954],
+      "name": "Berlin, Germany",
+      "url": "https://aqicn.org/city/germany/berlin"
+    },
+    "dominentpol": "pm10",
+    "iaqi": {
+      "no2": { "v": 14.7 },
+      "o3": { "v": 9.8 },
+      "p": { "v": 1037.9 },
+      "pm10": { "v": 10 },
+      "t": { "v": 2.2 },
+      "w": { "v": 4.3 },
+      "wg": { "v": 9.3 }
+    },
+    "time": { "s": "2019-12-28 01:00:00", "tz": "+01:00", "v": 1577494800 },
+    "debug": { "sync": "2019-12-28T09:26:31+09:00" }
+  }
+}
