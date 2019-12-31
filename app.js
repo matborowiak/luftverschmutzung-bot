@@ -1,4 +1,6 @@
 // todo: add more conditions for different types of pollutants data
+// todo: add hashtags
+// messages like: Good morning Berlin! , Good afternoon Poznań!, Good night Hamburg! etc. #smaczki
 
 const Twit = require('twit')
 const axios = require('axios')
@@ -82,8 +84,8 @@ fetchData().then(response => {
   // final status message assembly
   let statusMessage =
     `${cityName} - ${message}. Main pollutant is ${dominentpol}\n` +
-    `\nAir Quality Index - ${aqi} | ${apl}` +
-    `\n---`
+    `\nAir Quality Index - ${aqi}\n${apl}` +
+    `\n------`
   if (pm25) {
     statusMessage = statusMessage + `\n${pm25}`
   }
