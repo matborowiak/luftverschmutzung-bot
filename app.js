@@ -1,4 +1,4 @@
-// todo: make specific pollutant values conditional in case api doesnt provide
+// todo: add more conditions for different types of pollutants data
 
 const Twit = require('twit')
 const axios = require('axios')
@@ -27,10 +27,24 @@ fetchData().then(response => {
   console.log(JSON.stringify(response))
   const cityName = response.data.city.name
   const aqi = JSON.stringify(response.data.aqi)
-  const pm25 = JSON.stringify(response.data.iaqi.pm25.v)
-  const pm10 = JSON.stringify(response.data.iaqi.pm10.v)
-  const o3 = JSON.stringify(response.data.iaqi.o3.v)
 
+  // check if data exists
+  let pm25 = null
+  response.data.iaqi.pm25
+    ? (pm25 = 'PM₂₅ - ' + JSON.stringify(response.data.iaqi.pm25.v))
+    : null
+
+  let pm10 = null
+  response.data.iaqi.pm10
+    ? (pm10 = 'PM₁₀ - ' + JSON.stringify(response.data.iaqi.pm10.v))
+    : null
+
+  let o3 = null
+  response.data.iaqi.o3
+    ? (o3 = 'O₃ - ' + JSON.stringify(response.data.iaqi.o3.v))
+    : null
+
+  // renaming for dominent pollutant
   const dominentpol =
     response.data.dominentpol === 'pm25'
       ? 'PM₂₅'
@@ -65,16 +79,22 @@ fetchData().then(response => {
       'health alert: everyone may experience more serious health effects'
   }
 
-  const statusMessage = `${cityName} - ${message}. Main pollutant is ${dominentpol}
+  // final status message
+  let statusMessage =
+    `${cityName} - ${message}. Main pollutant is ${dominentpol}\n` +
+    `\nAir Quality Index - ${aqi} | ${apl}` +
+    `\n---`
+  if (pm25) {
+    statusMessage = statusMessage + `\n${pm25}`
+  }
+  if (pm10) {
+    statusMessage = statusMessage + `\n${pm10}`
+  }
+  if (o3) {
+    statusMessage = statusMessage + `\n${o3}`
+  }
 
-  Air Quality Index - ${aqi} | ${apl}
-  ---
-  PM₂₅ - ${pm25}
-  PM₁₀ - ${pm10}
-  O₃ - ${o3}
-  `
-
-  // post to twitter
+  // post status to twitter
   t.post('statuses/update', { status: statusMessage }, function(
     err,
     data,
