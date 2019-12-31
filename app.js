@@ -22,6 +22,7 @@ const fetchData = async () => {
 }
 
 fetchData().then(response => {
+  console.log(JSON.stringify(response))
   const cityName = response.data.city.name
   const aqi = JSON.stringify(response.data.aqi)
   const pm25 = JSON.stringify(response.data.iaqi.p.v)
@@ -64,7 +65,7 @@ fetchData().then(response => {
 
   const statusMessage = `${cityName} - ${message}. Main pollutant is ${dominentpol}
 
-  Air Quality Index: ${aqi} | ${apl}
+  Air Quality Index - ${aqi} | ${apl}
   ---
   PM₂₅ - ${pm25}
   PM₁₀ - ${pm10}
