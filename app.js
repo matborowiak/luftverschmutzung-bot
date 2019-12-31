@@ -24,17 +24,52 @@ const fetchData = async () => {
 fetchData().then(response => {
   const cityName = response.data.city.name
   const aqi = JSON.stringify(response.data.aqi)
-  const dominentpol = response.data.dominentpol
   const pm25 = JSON.stringify(response.data.iaqi.p.v)
   const pm10 = JSON.stringify(response.data.iaqi.pm10.v)
-  
+  const o3 = JSON.stringify(response.data.iaqi.o3.v)
 
-  const statusMessage = `
-    ${cityName}
-    Air Quality Index: ${aqi} | (Good 💚)
-    Main Pollutant: ${dominentpol}
-    PM2.5 : ${pm25}
-    PM10 : ${pm10}`
+  const dominentpol =
+    response.data.dominentpol === 'pm25'
+      ? 'PM₂₅'
+      : response.data.dominentpol === 'pm10'
+      ? 'PM₁₀'
+      : response.data.dominentpol === 'o3'
+      ? 'O₃'
+      : response.data.dominentpol === 'no2'
+      ? 'NO₂'
+      : null
+
+  // procedural messages
+  let apl = 'Good 💚'
+  let message = `air quality is considered satisfactory, and air pollution poses little or no risk`
+  if (response.data.aqi > 50) {
+    apl = 'Moderate 💛'
+    message = `air quality is acceptible, there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution`
+  } else if (response.data.aqi > 100) {
+    apl = 'Unhealthy for Sensitive 🧡'
+    message = `members of sensitive groups may experience health effects. The general public is not likely to be affected`
+  } else if (response.data.aqi > 150) {
+    apl = 'Unhealthy 🤎'
+    message =
+      'everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects'
+  } else if (response.data.aqi > 200) {
+    apl = 'Very Unhealthy 🖤'
+    message =
+      'health warnings of emergency conditions. The entire population is more likely to be affected'
+  } else if (response.data.aqi > 300) {
+    apl = 'Hazardous 💀'
+    message =
+      'health alert: everyone may experience more serious health effects'
+  }
+
+  const statusMessage = `${cityName} - ${message}. Main pollutant is ${dominentpol}
+
+  Air Quality Index: ${aqi} | ${apl}
+  ---
+  PM₂₅ - ${pm25}
+  PM₁₀ - ${pm10}
+  O₃ - ${o3}
+  `
 
   // post to twitter
   t.post('statuses/update', { status: statusMessage }, function(
@@ -47,6 +82,15 @@ fetchData().then(response => {
     // console.log('ERROR:', err)
   })
 })
+
+// DUMMY STATUS UPDATE
+// Berlin, Germany - air quality is considered satisfactory, and air pollution poses little or no risk.
+
+// Air Quality Index - 20 | Good 💚
+// -----------------
+// PM₂₅ - 1027.6
+// PM₁₀ - 20
+// O₃ - 2.9
 
 // DUMMY POLLUTION DATA TREE
 // {
