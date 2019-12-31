@@ -1,3 +1,5 @@
+// todo: make specific pollutant values conditional in case api doesnt provide
+
 const Twit = require('twit')
 const axios = require('axios')
 const token = require('./_keys/API_KEYS')
@@ -22,9 +24,10 @@ const fetchData = async () => {
 }
 
 fetchData().then(response => {
+  console.log(JSON.stringify(response))
   const cityName = response.data.city.name
   const aqi = JSON.stringify(response.data.aqi)
-  const pm25 = JSON.stringify(response.data.iaqi.p.v)
+  const pm25 = JSON.stringify(response.data.iaqi.pm25.v)
   const pm10 = JSON.stringify(response.data.iaqi.pm10.v)
   const o3 = JSON.stringify(response.data.iaqi.o3.v)
 
@@ -64,7 +67,7 @@ fetchData().then(response => {
 
   const statusMessage = `${cityName} - ${message}. Main pollutant is ${dominentpol}
 
-  Air Quality Index: ${aqi} | ${apl}
+  Air Quality Index - ${aqi} | ${apl}
   ---
   PM₂₅ - ${pm25}
   PM₁₀ - ${pm10}
