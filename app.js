@@ -25,12 +25,15 @@ fetchData().then(response => {
   const cityName = response.data.city.name
   const aqi = JSON.stringify(response.data.aqi)
   const dominentpol = response.data.dominentpol
+  const pm25 = JSON.stringify(response.data.iaqi.p.v)
   const pm10 = JSON.stringify(response.data.iaqi.pm10.v)
+  
 
   const statusMessage = `
     ${cityName}
-    Air Quality Index: ${aqi} (Good 💚)
+    Air Quality Index: ${aqi} | (Good 💚)
     Main Pollutant: ${dominentpol}
+    PM2.5 : ${pm25}
     PM10 : ${pm10}`
 
   // post to twitter
