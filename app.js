@@ -29,9 +29,9 @@ fetchData().then(response => {
 
   const statusMessage = `
     ${cityName}
-    Air Quality Index: ${aqi}
+    Air Quality Index: ${aqi} (Good 💚)
     Main Pollutant: ${dominentpol}
-    PM10: ${pm10}`
+    PM10 : ${pm10}`
 
   // post to twitter
   t.post('statuses/update', { status: statusMessage }, function(
