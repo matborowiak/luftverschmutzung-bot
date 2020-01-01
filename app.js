@@ -83,25 +83,28 @@ fetchData().then(response => {
 
   // final status message assembly
   let statusMessage =
-    `${cityName} - ${message}. Main pollutant is ${dominentpol}\n` +
-    `\nAir Quality Index - ${aqi}\n${apl}` +
-    `\n------`
+    `${cityName} - ${message}. Main pollutant is ${dominentpol}\n` + `
+    Air Quality Index - ${aqi} | ${apl}
+    ------`
+    
   if (pm25) {
-    statusMessage = statusMessage + `\n${pm25}`
+    statusMessage = statusMessage + `${pm25}`
   }
   if (pm10) {
-    statusMessage = statusMessage + `\n${pm10}`
+    statusMessage = statusMessage + `
+    ${pm10}`
   }
   if (o3) {
-    statusMessage = statusMessage + `\n${o3}`
+    statusMessage = statusMessage + `
+    ${o3}`
   }
 
   // post status to twitter
-  t.post('statuses/update', { status: statusMessage }, function(
+  t.post('statuses/update', { status: statusMessage }, (
     err,
     data,
     response
-  ) {
+  ) => {
     console.log('DATA:', data)
     // console.log('RESPONSE:', response)
     // console.log('ERROR:', err)
