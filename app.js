@@ -6,8 +6,8 @@ const Twit = require('twit')
 const axios = require('axios')
 
 // change this between local and live lambda =>
-const token = process.env 
-// const token = require('./_keys/API_KEYS') 
+// const token = process.env
+const token = require('./_keys/API_KEYS')
 
 // twit config for twitter api auth
 const t = new Twit({
@@ -18,7 +18,8 @@ const t = new Twit({
 })
 // handler required by AWS Lambda
 exports.handler = async event => {
-  const city = 'berlin' // todo: passing city with the event: event.data.city ?
+  console.log('\n\nEVENT: ', event, '\n')
+  const city = event.city
   const fetchPollutionData = async () => {
     const result = await axios.get(
       `https://api.waqi.info/feed/${city}/?token=${token.WAQI_TOKEN}`
@@ -92,7 +93,7 @@ exports.handler = async event => {
       statusMessage =
         statusMessage +
         `
-        ${pm25}`
+          ${pm25}`
     }
     if (pm10) {
       statusMessage =
@@ -115,7 +116,7 @@ exports.handler = async event => {
         (err, data, response) => {
           console.log('\n\n TWITTER DATA RESPONSE:\n', data)
           // console.log('\n\n TWITTER HTTP RESPONSE:\n', response)
-          console.log('\n\n TWITTER ERROR RESPONSE:\n', err)
+          console.log('\n\n TWITTER ERROR RESPONSE:\n', err, '\n\n')
         }
       )
       return asyncTweetResponse
@@ -124,7 +125,6 @@ exports.handler = async event => {
   })
   return asyncStatusHanlder
 }
-
 
 // DUMMY STATUS UPDATE
 // Berlin, Germany - air quality is considered satisfactory, and air pollution poses little or no risk.
