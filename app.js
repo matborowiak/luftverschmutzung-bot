@@ -4,7 +4,10 @@
 
 const Twit = require('twit')
 const axios = require('axios')
-const token = process.env //require('./_keys/API_KEYS')
+
+// change this between local and live lambda =>
+const token = process.env 
+// const token = require('./_keys/API_KEYS') 
 
 // twit config for twitter api auth
 const t = new Twit({
